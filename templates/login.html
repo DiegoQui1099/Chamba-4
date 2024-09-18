@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Certificaciones</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/xdev.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" class="favicon">
+    <!-- Agregar el CSS de Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <!-- Encapsulamos el header en una clase única -->
+    <div class="custom-header-wrapper">
+        {% include 'header.html' %}
+    </div>
+    <br>
+    <div class="login-wrapper">
+        <div class="login-container" id="login-container">
+            <!-- Formulario de Registro -->
+            <div class="form-container sign-up-container">
+                <form action="{{ url_for('register') }}" method="POST" onsubmit="return validarContraseña();">
+
+                    <h1>Registro</h1>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    {% if category == 'register' %}
+                    <div class="custom-alert custom-alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    <!-- Campo Nombre -->
+                    <div class="input-container">
+                        <input type="text" name="nombre" id="nombre" placeholder=" " required>
+                        <label for="nombre">Nombre</label>
+                    </div>
+
+                    <!-- Campo Usuario -->
+                    <div class="input-container">
+                        <input type="text" name="usuario" id="usuario" placeholder=" "
+                            oninput="this.value = this.value.toLowerCase()" required>
+                        <label for="usuario">Usuario</label>
+                    </div>
+
+                    <!-- Campo Correo -->
+                    <div class="input-container">
+                        <input type="email" name="correo" id="correo" placeholder=" " required>
+                        <label for="correo">Correo</label>
+                    </div>
+
+                    <!-- Campo Contraseña -->
+                    <div class="input-container">
+                        <input type="password" name="contraseña" id="contraseña" placeholder=" " required>
+                        <label for="contraseña">Contraseña</label>
+                    </div>
+                    <div id="error-message"
+                        style="color: red;display:none ;font-size: 10px;position: absolute;width: 301px;height: 97px;left: 41px;top: 29px;">
+                        La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número.</div>
+                    <!-- Botón de Registro -->
+                    <button type="submit">Registrarse</button>
+                </form>
+            </div>
+
+            <!-- Formulario de Iniciar Sesión -->
+            <div class="form-container sign-in-container">
+                <form action="{{ url_for('login') }}" method="POST">
+                    <h1>Inicia Sesión</h1>
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="custom-alert custom-alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                    <div class="input_login">
+                        <input type="text" name="usuario" id="usuario" placeholder=" "
+                            oninput="this.value = this.value.toLowerCase()" required>
+                        <label for="usuario">Usuario</label>
+                    </div>
+                    <div class="input_login">
+                        <input type="password" name="contraseña" id="contraseña" placeholder=" " required>
+                        <label for="contraseña">Contraseña</label>
+                    </div>
+                    <a href="#" data-toggle="modal" data-target="#forgotPasswordModal">¿Olvidaste Tu Contraseña?</a>
+                    <button type="submit">Iniciar Sesión</button>
+                </form>
+            </div>
+
+            <div class="overlay-container">
+                <div class="overlay">
+                    <div class="overlay-panel overlay-left">
+                        <h1 class="sub">¡Hola Quieres Registrarte!</h1>
+                        <p class="sub">Ingresa tus datos para hacer tu debido registro</p>
+                        <span>¡si ya tienes cuenta!</span>
+                        <button class="ghost" id="signIn">Inicia Sesión</button>
+                    </div>
+                    <div class="overlay-panel overlay-right">
+                        <h1 class="register-title">Bienvenido</h1>
+                        <p class="sub">Ingresa tus datos personales</p>
+                        <span>¿Aun no tienes una cuenta?</span>
+                        <button class="ghost" id="signUp">Registrarse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Encapsulamos el footer en una clase única -->
+    <div>
+        {% include 'footer.html' %}
+    </div>
+
+    <!-- Modal Olvidé mi contraseña -->
+    <div class="modal fade custom-modal-o" id="forgotPasswordModal" tabindex="-1" role="dialog"
+        aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content custom-modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Olvidé mi Contraseña</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('forgot_password') }}" method="POST">
+                        <input type="email" class="form_reset" id="correo" name="correo" placeholder="Ingresa tu correo"
+                            required>
+                        <button type="submit" class="btn_modal">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/xdev.js') }}"></script>
+    <script>
+        // Convertir el campo usuario a minúsculas mientras se escribe (para el formulario de registro)
+        document.addEventListener('DOMContentLoaded', function () {
+            const usuarioInputRegister = document.querySelector('input[name="usuario"]');
+            if (usuarioInputRegister) {
+                usuarioInputRegister.addEventListener('input', function () {
+                    this.value = this.value.toLowerCase();
+                });
+            }
+
+            // Convertir el campo usuario a minúsculas mientras se escribe (para el formulario de inicio de sesión)
+            const usuarioInputLogin = document.getElementById('usuario');
+            if (usuarioInputLogin) {
+                usuarioInputLogin.addEventListener('input', function () {
+                    this.value = this.value.toLowerCase();
+                });
+            }
+        });
+        // Convertir el campo usuario a minúsculas mientras se escribe (para el formulario de registro)
+        document.addEventListener('DOMContentLoaded', function () {
+            const correoInputRegister = document.querySelector('input[name="correo"]');
+            if (correoInputRegister) {
+                correoInputRegister.addEventListener('input', function () {
+                    this.value = this.value.toLowerCase();
+                });
+            }
+        });
+
+        function validarContraseña() {
+            const contraseña = document.getElementById('contraseña').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // Expresión regular para validar una mayúscula, una minúscula y un número
+            const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
+
+            if (!regex.test(contraseña)) {
+                errorMessage.style.display = 'block';  // Mostrar el mensaje de error
+                return false;  // Prevenir el envío del formulario
+            }
+
+            errorMessage.style.display = 'none';  // Ocultar el mensaje de error
+            return true;  // Permitir el envío del formulario
+        }
+    </script>
+</body>
+
+</html>

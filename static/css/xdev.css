@@ -1,0 +1,606 @@
+/* Estilos personalizados para el contenedor del login */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 100px);
+    /* Ajuste de altura tomando en cuenta el header y el footer */
+}
+
+.login-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    width: 768px;
+    max-width: 100%;
+    min-height: 480px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transition: all 0.6s ease-in-out;
+}
+
+/* Formulario de inicio de sesión */
+.sign-in-container {
+    left: 0;
+    z-index: 2;
+}
+
+.login-container.right-panel-active .sign-in-container {
+    transform: translateX(100%);
+}
+
+/* Formulario de registro */
+.sign-up-container {
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+}
+
+.login-container.right-panel-active .sign-up-container {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: show 0.6s;
+}
+
+/* Animación para mostrar el formulario de registro */
+@keyframes show {
+
+    0%,
+    49.99% {
+        opacity: 0;
+        z-index: 1;
+    }
+
+    50%,
+    100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+/* Contenedor del overlay */
+.overlay-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 100;
+}
+
+.login-container.right-panel-active .overlay-container {
+    transform: translateX(-100%);
+}
+
+/* Overlay con fondo de color y gradiente */
+.overlay {
+    background: #002D55;
+    background: -webkit-linear-gradient(to right, #013563, #002D55);
+    background: linear-gradient(to right, #014077, #072c4d);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 0;
+    color: #FFFFFF;
+    position: relative;
+    left: -100%;
+    height: 100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.login-container.right-panel-active .overlay {
+    transform: translateX(50%);
+}
+
+/* Paneles dentro del overlay */
+.overlay-panel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    text-align: center;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    transform: translateX(0);
+    transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+    transform: translateX(-20%);
+}
+
+.login-container.right-panel-active .overlay-left {
+    transform: translateX(0);
+}
+
+.overlay-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.login-container.right-panel-active .overlay-right {
+    transform: translateX(20%);
+}
+
+/* Estilos adicionales */
+.social-container {
+    margin: 20px 0;
+}
+
+.social-container a {
+    border: 1px solid #DDDDDD;
+    border-radius: 50%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    height: 40px;
+    width: 40px;
+}
+
+input {
+    background-color: #fffcfc;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 100%;
+}
+
+/* Contenedor del input */
+.input-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* Estilo del placeholder personalizado */
+.input-container label {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    color: #aaa;
+    pointer-events: none;
+}
+
+/* Efecto cuando el input está en focus o contiene texto */
+.input-container input:focus+label,
+.input-container input:not(:placeholder-shown)+label {
+    top: -10px;
+    left: 5px;
+    font-size: 12px;
+    color: #555;
+}
+
+/* Estilo del input */
+.input-container input {
+    width: 233px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    border-radius: 20px;
+    border: 1px solid rgb(6, 64, 97);
+    background-color: #002D55;
+    color: #FFFFFF;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+button:focus {
+    outline: none;
+}
+
+button.ghost {
+    background-color: transparent;
+    border-color: #FFFFFF;
+}
+
+form {
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 42px 43px;
+    height: 100%;
+    text-align: center;
+    align-items: stretch;
+}
+
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: auto;
+}
+
+.form-container h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input_login {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input_login input {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input_login input:focus {
+    border-color: #013563;
+}
+
+.input_login label {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #aaa;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.input_login input:focus+label,
+.input_login input:not(:placeholder-shown)+label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.45);
+    padding: 0 5px;
+}
+
+a {
+    color: #013563;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #013563;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #013563;
+}
+
+.custom-alert {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        padding: 15px;
+        max-width: 90%;
+    }
+
+    .form-container h1 {
+        font-size: 20px;
+    }
+
+    .input_login input {
+        padding: 10px 12px;
+    }
+
+    button[type="submit"] {
+        padding: 10px;
+    }
+}
+
+/* Evitar conflictos con el header y footer */
+.custom-header-wrapper,
+.custom-footer-wrapper {
+    width: 100%;
+}
+
+/* Fondo general y estilos de texto */
+body {
+    background: radial-gradient(circle at 67.6% 20.39%, rgba(255, 255, 255, 0.5), transparent 69%),
+        radial-gradient(circle at 88.75% 28.67%, rgba(255, 255, 255, 0.5), transparent 60%),
+        radial-gradient(circle at 13.33% 0.38%, #bedbf752, transparent 38%),
+        radial-gradient(circle at 86.77% 1.6%, #bedbf752, transparent 39%),
+        radial-gradient(circle at 81.09% 74.15%, rgba(255, 255, 255, 0.5), transparent 57%),
+        radial-gradient(circle at 67.81% 96.71%, #bedbf752, transparent 36%),
+        radial-gradient(circle at 50% 50%, #ffffff, #ffffff 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    margin: 0;
+}
+
+h1 {
+    color: #fff;
+    font-weight: bold;
+    margin: 0;
+}
+
+.register-title {
+    font-size: 28px;
+    /* Ajusta el tamaño de fuente según tu diseño */
+    font-weight: bold;
+    color: #ffffff;
+    /* Cambia el color según tu paleta */
+    margin: 0;
+    /* Ajusta el margen según sea necesario */
+    text-align: center;
+    /* Alinea el texto al centro si es necesario */
+}
+
+.sub {
+    color: #fff;
+}
+
+h2 {
+    text-align: center;
+}
+
+p {
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 20px;
+    letter-spacing: 0.5px;
+    margin: 20px 0 30px;
+}
+
+span {
+    font-size: 12px;
+}
+
+a {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+}
+
+/* Estilos generales para las alertas personalizadas */
+.custom-alert {
+    padding: 5px;
+    /* Reducir el padding */
+    margin: 5px 0;
+    /* Reducir el margen */
+    border-radius: 4px;
+    font-size: 12px;
+    /* Reducir el tamaño de la fuente */
+    width: auto;
+    position: relative;
+    text-align: center;
+    max-width: 300px;
+    /* Asegura que las alertas no sean demasiado grandes */
+    margin: 10px auto;
+    /* Centrar las alertas */
+    top: -17px;
+}
+
+/* Estilos para diferentes tipos de alertas */
+.custom-alert-login-error {
+    background-color: #f8d7da;
+    /* Rojo claro para errores */
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.custom-alert-login-success {
+    background-color: #d4edda;
+    /* Verde claro para éxito */
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.custom-alert-login-warning {
+    background-color: #fff3cd;
+    /* Amarillo claro para advertencias */
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+/* Estilos para diferentes tipos de alertas register */
+.custom-alert-register-error {
+    background-color: #f8d7da;
+    /* Rojo claro para errores */
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.custom-alert-register-success {
+    background-color: #d4edda;
+    /* Verde claro para éxito */
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.custom-alert-register-warning {
+    background-color: #fff3cd;
+    /* Amarillo claro para advertencias */
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+
+
+/* Ejemplo de estilos para posicionamiento flotante o fijo */
+.custom-alert.top-left {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.custom-alert.top-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.custom-alert.bottom-left {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.custom-alert.bottom-right {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.custom-alert.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Si deseas que las alertas sean animadas al aparecer/desaparecer */
+.custom-alert.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Estilos específicos para el modal personalizado */
+.custom-modal-o .modal-dialog {
+    max-width: 500px;
+    /* Ajusta el ancho del modal */
+}
+
+.custom-modal-o .modal-content {
+    border-radius: 8px;
+    /* Redondea las esquinas del modal */
+    background-color: #f8f9fa;
+    /* Cambia el color de fondo del modal */
+    border: 1px solid #dee2e6;
+    /* Cambia el borde del modal */
+}
+
+.custom-modal-o .modal-header {
+    background-color: #002D55;
+    /* Cambia el color de fondo del encabezado del modal */
+    color: #ffffff;
+    /* Cambia el color del texto del encabezado */
+    border-bottom: 1px solid #dee2e6;
+    /* Borde inferior del encabezado */
+}
+
+.custom-modal-o .modal-body {
+    padding: 20px;
+    /* Ajusta el relleno del cuerpo del modal */
+}
+
+.custom-modal-o .btn-primary {
+    background-color: #002D55;
+    /* Cambia el color de fondo del botón primario */
+    border: 1px solid #002D55;
+    /* Cambia el borde del botón primario */
+}
+
+.custom-modal-o .btn-primary:hover {
+    background-color: #014077;
+    /* Cambia el color de fondo del botón en hover */
+    border-color: #014077;
+    /* Cambia el borde del botón en hover */
+}
+
+/*Estilos para el modal el boton y el imput */
+
+/* Estilos para el formulario dentro del modal */
+.form_reset {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+/* Estilo para el botón dentro del modal */
+.btn_modal {
+    width: 100%;
+    background-color: #002D55;
+    border: none;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}

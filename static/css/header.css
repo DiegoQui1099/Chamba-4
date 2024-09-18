@@ -1,0 +1,236 @@
+.modal-content.services_module .modal-header{
+    padding-top: 0;
+    border-bottom: transparent;
+}
+
+.deskheader{
+    background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.72) 9.57%, rgba(255, 255, 255, 0.45) 95.45%);
+    backdrop-filter: blur(4px);
+    border-radius: 40px !important;
+    padding: 0px 0px 0px 0px;
+    padding: 15px 20px 15px 20px;
+    margin-top: 20px;
+    position: relative;
+    z-index: 99;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.mainbar{
+    display: block !important;
+}
+.logoregistraduria{
+    width: 280px;
+    height: 67px;
+    background-repeat: no-repeat;
+    background-image: url("../img/logo_registraduria_azul_fondos_claros.svg");
+    background-size: contain;
+}
+.searchbox{
+    display: block;
+    float: right;
+}
+.searchinp{
+    font-family: "Open Sans";
+    font-size: 1em;
+    color: #002D55;
+    background: rgba(209, 223, 235, 1);
+    border-radius: 30px;
+    padding: 0px 0px 0px 0px;
+    border: none;
+    position: relative;
+    z-index: 4;
+    float: left;
+    width: 300px;
+    height: 50px;
+    padding: 0px 0px 0px 20px;
+}
+.searchinp::placeholder{
+    font-family: "Open Sans";
+    font-size: 1em;
+    color: #002D55;
+}
+.ico-search{
+    display: block;
+    float: right;
+    position: relative;
+    z-index: 5;
+    width: 50px;
+    height: 50px;
+    border: none;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-image: url("../images/icon-search.svg");
+    background-position: 50% 50%;
+    margin: 0px 0px 0px -50px;
+}
+.openmen-desk{
+    display: block;
+    float: right;
+    border-radius: 30px;
+    background-color: #002D55;
+    height: 50px;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
+}
+.txtopmen{
+    font-family: "Open Sans";
+    font-size: 1em;
+    color: #ffffff;
+    margin: 12px 20px 0px 20px;
+    float: left;
+}
+.ico-openmen{
+    display: block;
+    float: right;
+    background-color: #00F5E8;
+    border-radius: 30px;
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-image: url("../images/icon-hamburguer.svg");
+    margin: 5px 5px 0px 0px;
+}
+.openmen-mob{
+    display: block;
+    float: left;
+    width: 15%;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain;
+    background-image: url("../images/ico-hamburguermenu.svg");
+    margin: 0px;
+}
+.searchico{
+    display: block;
+    float: right;
+    width: 15%;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: contain;
+    background-image: url("../images/ico-searchmob.svg");
+    margin: 0px 0px 0px 0px;
+}
+
+.modal-content.services_module .modal-header{
+    padding-top: 0;
+    border-bottom: transparent;
+}
+
+.action-container{
+    display: block;
+    float: left;
+    margin: 10px;
+}
+@media only screen and (max-width: 45em) {
+    .deskheader {
+        background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.72) 9.57%, rgba(255, 255, 255, 0.45) 95.45%);
+        backdrop-filter: blur(4px);
+        border-radius: 40px !important;
+        padding: 0px 0px 0px 0px;
+        padding: 15px 20px 15px 20px;
+        margin-top: 20px;
+        position: relative;
+        z-index: 99;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+    .mobheader {
+        display: block;
+        z-index: 99;
+        width: 100%;
+        height: 70px;
+        background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.72) 9.57%, rgba(255, 255, 255, 0.45) 95.45%);
+        backdrop-filter: blur(4px);
+        border-radius: 40px;
+        margin: 20px 0px 10px 0px;
+        padding: 5px;
+    }
+    .logoregistraduria{
+        background-position: 10px 5px;
+    }
+}
+
+@media only screen and (min-width: 40.063em) and (max-width: 74.9375em) {
+    .deskheader {
+        background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.72) 9.57%, rgba(255, 255, 255, 0.45) 95.45%);
+        backdrop-filter: blur(4px);
+        border-radius: 40px !important;
+        padding: 0px 0px 0px 0px;
+        padding: 15px 20px 15px 20px;
+        margin-top: 20px;
+        position: relative;
+        z-index: 99;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+}
+
+@media only screen and (min-width: 40.063em) and (max-width: 64em) {
+    .deskheader {
+        background: linear-gradient(90.77deg, rgba(255, 255, 255, 0.72) 9.57%, rgba(255, 255, 255, 0.45) 95.45%);
+        backdrop-filter: blur(4px);
+        border-radius: 40px !important;
+        padding: 0px 0px 0px 0px;
+        padding: 15px 20px 15px 20px;
+        margin-top: 20px;
+        position: relative;
+        z-index: 99;
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+    
+}
+
+@media only screen and (min-width: 64.063em) { } /* min-width 1025px, large screens */
+
+@media only screen and (min-width: 64.063em) and (max-width: 90em) { } /* min-width 1025px and max-width 1440px, use when QAing large screen-only issues */
+
+/*******XLarge screens****/
+@media only screen and (min-width: 90.063em) { } /* min-width 1441px, xlarge screens */
+
+@media only screen and (min-width: 90.063em) and (max-width: 120em) { } /* min-width 1441px and max-width 1920px, use when QAing xlarge screen-only issues */
+
+/*******XXLarge screens****/
+@media only screen and (min-width: 120.063em) { } /* min-width 1921px, xxlarge screens */
+
+/* container */
+
+.action-container{
+    display: block;
+    float: left;
+    margin: 10px;
+}
+
+.containerbann-intern {
+    margin-top: 0;
+    padding: 0px 20px;
+}
+
+.fullwcontainer{
+    padding-top: 40px;
+}
+
+.logo-container {
+    display: block;
+    float: left;
+    width: 100%;
+    height: 100px;
+    margin: 30px 0px;
+    /* padding-left: 50px; */
+    text-align: center;
+}
+
+.logo-container img {
+    display: inline-block;
+    /* float: left; */
+    width: 150px;
+    height: auto;
+}
+
+.action-container{
+    display: block;
+    float: left;
+    margin: 10px;
+}
