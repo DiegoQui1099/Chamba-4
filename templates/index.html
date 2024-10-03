@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type='image/x-icon' rel='shortcut icon' href="{{ url_for('static', filename='img/favicon.ico') }}" />
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Certificaciones</title>
-
     <!-- Bootstrap -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <style>
         body {
             background: radial-gradient(circle at 67.6% 20.39%, rgba(255, 255, 255, 0.5), transparent 69%),
@@ -21,6 +19,7 @@
                 radial-gradient(circle at 81.09% 74.15%, rgba(255, 255, 255, 0.5), transparent 57%),
                 radial-gradient(circle at 67.81% 96.71%, #bedbf752, transparent 36%),
                 radial-gradient(circle at 50% 50%, #ffffff, #ffffff 100%);
+            display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
@@ -28,631 +27,86 @@
             height: 100vh;
             margin: 0;
         }
-
-        .alert-index {
-            padding: 1em;
-            margin: 1em 0;
-            border-radius: .25em;
-            border: 1px solid transparent;
-            font-size: 1em;
-            line-height: 1.5;
-            position: relative;
-            border-left-width: 0.25em;
+    </style>
+    <style>
+        /* Estilo para el contenedor principal */
+        .content-wrapper_1 {
+            background-color: #f8f9fa; /* Color de fondo diferente */
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            width: 80%;
         }
-
-        .alert-index-success {
-            color: #155724;
-            background-color: #d4edda;
-            border-color: #c3e6cb;
+    
+        /* Estilo para el contenedor de la cédula */
+        .juradoss {
+            margin-top: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        .alert-index-danger {
-            color: #721c24;
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
+    
+        .juradoss label {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #333;
         }
-
-        .alert-index-warning {
-            color: #856404;
-            background-color: #fff3cd;
-            border-color: #ffeeba;
+    
+        .juradoss input {
+            width: 320px;
+            padding: 12px;
+            border-radius: 30px;
+            border: 1px solid #aaa;
+            text-align: center;
+            font-size: 16px;
         }
-
-        .alert-index-info {
-            color: #0c5460;
-            background-color: #d1ecf1;
-            border-color: #bee5eb;
+    
+        /* Estilo para el botón */
+        .botonJ {
+            background-color: #007bff; /* Azul Bootstrap */
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    
+        .botonJ:hover {
+            background-color: #0056b3;
+        }
+    
+        /* Estilo para el contenedor de reCAPTCHA */
+        .recaptcha-container {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
-
+{% include 'header.html' %}
 <body>
-    <div>
-        {% include 'header.html' %}
-    </div>
-    <div class="container"></div>
-    <div class="text-right" style="margin: 10px;">
-        <a href="{{ url_for('logout') }}" class="btn btn-danger">Cerrar Sesión</a>
-    </div>
-    <div class="container">
-        <br><br>
-        <div class="row">
 
-            <form id="form1" name="form1" action="/add_oficios" method="POST">
-                <div class="col-md-6">
-                    <div class="row">
-                        {% with messages = get_flashed_messages(with_categories=True) %}
-                        {% if messages %}
-                        <div class="alert-index alert-index-{{ messages[0][0] }}" role="alert">
-                            {{ messages[0][1] }}
-                        </div>
-                        {% endif %}
-                        {% endwith %}
-                        <br>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nDocumento">Número de DocumQento</label>
-                                <input type="text" class="form-control" name="nDocumento" id="nDocumento" />
-                            </div>
+    <div class="content-wrapper_1">
+        <h3>JURADOS DE VOTACIÓN</h3>
+        <h4>ELECCIONES DE JUECES DE PAZ Y JUECES DE PAZ DE RECONSIDERACIÓN</h4>
+        <h5>15 DE SEPTIEMBRE DE 2024</h5>
 
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="Usuario">Nombre Del Funcionario</label>
-                                <h4><input type="text" name="Usuario" id="Usuario" value="{{ nombre_usuario }}" /></h4>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <input type="hidden" name="nOficio" id="nOficio" readonly />
-                        <!-- *********************************** -->
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-
-                                <label for="tipoDocumento">Tipo de Documento</label>
-                                <select name="tipoDocumento" class="form-control" id="tipoDocumento">
-                                    <option value="1" selected="selected">Seleccione</option>
-                                    {% for tipoDoc in tipodocumento %}
-                                    <option value="{{ tipoDoc[0] }}">{{ tipoDoc[1] }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <div class="form-group">
-
-                                <label for="motivoAutorizacion">Motivo de autorización</label>
-                                <select name="motivoAutorizacion" class="form-control" id="motivoAutorizacion">
-                                    <option value="-1" selected="selected">Seleccione</option>
-                                    {% for motivo in motivoautorizacion %}
-                                    <option value="{{ motivo[0] }}">{{ motivo[1] }}</option>
-                                    {% endfor %}
-                                </select>
-
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <label for="validacionDocumentos">Validación Documentos</label>
-                    <div id="checkboxes">
-                        <div class="row">
-                            {% for doc in validaciondocumentos %}
-                            <div class="col-md-6">
-                                <label for="vDoc" class="checkbox-inline">
-                                    <input type="checkbox" name="vDoc" id="vDoc{{ doc[0] }}" value="{{ doc[0] }}">
-                                    {{ doc[1] }}
-                                </label>
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="aPlano">Archivo Plano</label>
-                        <textarea class="form-control" name="aPlano" id="aPlano" rows="2"></textarea>
-
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="nombreCompleto">Nombre</label>
-                                <input type="text" name="nombreCompleto" class="form-control" id="nombreCompleto" />
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="banco">Banco</label>
-                                <select name="banco" class="form-control" id="banco">
-                                    <option value="1" selected="selected">Seleccione</option>
-                                    {% for banco in bancos %}
-                                    <option value="{{ banco[0] }}">{{ banco[1] }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="dfecha">Fecha Consignación </label>
-                                <input type="date" name="dfecha" id="dFecha" class="form-control">
-
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="valorConsignacion">Valor de Consignación </label>
-                                <input type="text" name="valorConsignacion" id="valorConsignacion" class="form-control">
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-
-                                <label for="lTramite">Lugar del trámite</label>
-                                <select name="lTramite" id="lTramite" class="form-control">
-                                    <option value="-1" selected="selected">Seleccione</option>
-                                    {% for dtos in departamentos %}
-                                    <option value="{{ dtos[0] }}">{{ dtos[1] }}</option>
-                                    {% endfor %}
-                                </select>
-
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="lLocalidad">Localidad Trámite</label>
-                                <select name="lLocalidad" id="lLocalidad" class="form-control">
-                                    <option value="">No seleccionado</option>
-                                    {% for loc in localidades %}
-                                    <option value="{{ loc[0] }}">{{ loc[1] }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-                        <label for="observacion">Observaciones </label>
-                        <textarea class="form-control" name="observacion" id="observacion" rows="2"
-                            class="form-control"></textarea>
-
-                    </div>
-
-
-
-                    <div class="form-group">
-                        <label id="botonPdf">
-                            <button type="submit" class="btn btn-danger" id="btnGuardar">Guardar</button>
-                        </label>
-
-                    </div>
-            </form>
-        </div>
-
-
-        <div class="col-md-6 "
-            style="border-style:ridge; background-image: url('static/img/plantillaRecaudos.jpg'); width: 560px; height: 750px;">
-
-            <div style="padding:115px 0 0 20px;">
-                <h5>DF-GCR– <b id="txtOficio"></b> </h5>
-                <h5 id="horaActual">Bogota D.C. 27-08-2024 10:03:25</h5>
-                <p> Señor
-                    <b> Señor <b> Delegados Departamentales de </b><b id="txtTramite"></b>
-                </p>
-                <p><b>Ref:TRÁMITE DE DUPLICADO DE </b> <b id="txtTipoDocumento"></b></p>
-                <h6>FECHA DE GENERACIÓN DOCUMENTO  : </h6>
-                <h6>FECHA DE CADUCIDAD DE ESTE DOCUMENTO : </h6>
-                <p>
-
-                    <small> Respetados doctores. <br>
-
-                        De manera atenta me permito informar que revisados los archivos planos <span
-                            id="particulaBanco"></span> <b id="txtBanco"></b>
-                        se verificó la siguiente consignación: </small>
-
-                <table border="1" width="480px" height="100px">
-                    <th id="txtPlano" class="txtPlano" style="font-size: 20px;"></th>
-                </table>
-                <input type="text" id="aPlano" class="hidden">
-
-                </p>
-                <p class="text-justify"><small>
-                        Por lo tanto se Certifica el ingreso de los recursos a la cuenta del FRR para el tramite de
-                        duplicado de <b id="txtTipoDocumento"> </b> al ciudadano(a):
-                        <b id="txtNombre"> </b> con cupo numérico: <b id="txtDocumento"> </b>
-                        el cual se presenta por <b id="txtMotivo"> </b>, favor recibir la siguiente
-                        documentacion <b id="txtValidacion"> </b>, y verificar en su correo electrónico el código único:
-                        <b id="txtCodigoUnico"> </b> de autorización de validez del documento, generado en la
-                        coordinación
-                        de recaudos que se enviará a su correo inmediatamente se haya generado este documento.
-                        Cordialmente,
-                    </small>
-                </p>
-
-
-
-                <p>
-                    CARLOS ANDRÉS CONTRERAS GONZÁLEZ<br>
-                    Coordinador Control de Recaudos
-                </p>
-
-                <p class="firma" id="firma"></p>
-                <small><input type="hidden" name="ip" id="ip" value="172.23.11.96"></small>
+        <form method="POST">
+            <div class="juradoss">
+                <label for="cedula">Cédula de ciudadanía:</label>
+                <input type="text" id="cedula" name="cedula" placeholder="Digite el número" required>
             </div>
-
-        </div>
-
+            <div class="recaptcha-container">
+                <div class="g-recaptcha" data-sitekey="TU_CLAVE_SITIO"></div>
+            </div>
+            <button type="submit" class="botonJ">Consultar</button>
+        </form>
     </div>
-
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <script>
-        document.getElementById("form1").addEventListener("submit", function (event) {
-            event.preventDefault();  // Evitar el envío del formulario dos veces
-
-            // Capturar los valores del formulario
-            var nDocumento = document.getElementById("nDocumento").value;
-            var Usuario = document.getElementById("Usuario").value;
-            var tipoDocumento = document.getElementById("tipoDocumento").options[document.getElementById("tipoDocumento").selectedIndex].text;
-            var motivoAutorizacion = document.getElementById("motivoAutorizacion").options[document.getElementById("motivoAutorizacion").selectedIndex].text;
-            var aPlano = document.getElementById("aPlano").value;
-            var nombreCompleto = document.getElementById("nombreCompleto").value;
-            var banco = document.getElementById("banco").options[document.getElementById("banco").selectedIndex].text;
-            var lTramite = document.getElementById("lTramite").options[document.getElementById("lTramite").selectedIndex].text;
-            var observacion = document.getElementById("observacion").value;
-
-            // Crear un nuevo documento PDF
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4');
-
-            // Función para agregar la plantilla a una página
-            function addTemplate() {
-                doc.addImage('/static/img/plantillaRecaudos.jpg', 'JPEG', 0, 0, 210, 297); // Ajustar las dimensiones para el tamaño A4
-            }
-
-            // Función para crear una nueva página con la plantilla
-            function addNewPage() {
-                doc.addPage();
-                addTemplate(); // Agregar la plantilla a la nueva página
-            }
-
-            // Agregar la plantilla de fondo en la primera página
-            addTemplate();
-
-            // Configurar la fuente y el tamaño de texto
-            doc.setFont("times", "normal");
-            doc.setFontSize(12);
-
-            // Definir márgenes y posición
-            const pageWidth = doc.internal.pageSize.getWidth();
-            const pageHeight = doc.internal.pageSize.getHeight();
-            const leftMargin = 20; // Establecer el margen izquierdo para el contenido principal
-            const rightMargin = 20;
-            let ajusteVertical = 50; // Iniciar más abajo para evitar que se solape con el logo
-
-            // Bloque de texto alineado a la izquierda en negrita
-            doc.setFont("times", "bold"); // Cambiar a fuente en negrita
-            ajusteVertical += 12;
-            doc.text('DF-GCR–', leftMargin, ajusteVertical);  // Texto en negrita
-            ajusteVertical += 10;
-            doc.text('Bogotá D.C. ' + new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(), leftMargin, ajusteVertical);  // Texto en negrita
-            ajusteVertical += 10;
-
-            // Volver a fuente normal
-            doc.setFont("times", "normal");
-
-            // Detalles del destinatario alineados a la izquierda
-            doc.text(`Señor`, leftMargin, ajusteVertical);  // "Señor" en fuente normal
-            doc.setFont("times", "bold"); // Cambiar a fuente en negrita para el resto del texto
-            doc.text(` Registrador(a) auxiliar de la localidad de ${lTramite}`, leftMargin + doc.getTextWidth("Señor "), ajusteVertical);
-            ajusteVertical += 8;
-
-            // Texto en fuente normal
-            doc.setFont("times", "normal"); // Cambiar a fuente normal
-            doc.text(`Ref: TRÁMITE DE DUPLICADO DE `, leftMargin, ajusteVertical); // "Ref: TRÁMITE DE DUPLICADO DE" en fuente normal
-
-            // Cambiar a fuente en negrita para tipoDocumento
-            doc.setFont("times", "bold"); // Cambiar a fuente en negrita
-            doc.text(`${tipoDocumento}`, leftMargin + doc.getTextWidth("Ref: TRÁMITE DE DUPLICADO DE"), ajusteVertical); // "tipoDocumento" en negrita
-            doc.setFont("times", "normal"); // Volver a fuente normal
-            ajusteVertical += 10;
-
-            // Fechas alineadas a la izquierda en negrita
-            doc.setFont("times", "bold"); // Cambiar a fuente en negrita
-            doc.text(`FECHA DE GENERACIÓN DOCUMENTO: ${new Date().toLocaleString()}`, leftMargin, ajusteVertical);
-            ajusteVertical += 8;
-            doc.text('FECHA DE CADUCIDAD DE ESTE DOCUMENTO: 30-08-2024', leftMargin, ajusteVertical);
-            ajusteVertical += 10;
-
-            // Volver a fuente normal
-            doc.setFont("times", "normal");
-
-            // Cuerpo principal del texto
-            doc.setFontSize(12);
-
-            // Texto inicial alineado a la izquierda
-            doc.text('Respetados doctores.', leftMargin, ajusteVertical); // Texto normal
-            ajusteVertical += 8; // Espacio después del texto inicial
-
-            // Texto inicial antes de la parte en negrita
-            let bodyTextInicial = 'De manera atenta me permito informar que revisados los archivos planos del ';
-            doc.text(bodyTextInicial, leftMargin, ajusteVertical);
-
-            // Obtener el ancho del texto inicial
-            let anchoTextoInicial = doc.getTextWidth(bodyTextInicial);
-
-            // Texto del banco en negrita
-            doc.setFont('times', 'bold');
-            doc.text(`${banco}`, leftMargin + anchoTextoInicial, ajusteVertical); // Texto en negrita
-
-            // Volver a fuente normal para el texto final
-            doc.setFont('times', 'normal');
-            
-            // Texto final que incluye "se verificó la siguiente consignación"
-            let bodyTextFinal = `se verificó la siguiente consignación: ${aPlano}`;
-
-            // **Nuevo cambio**: Hacer que el texto comience desde el margen izquierdo
-            ajusteVertical += 5; // Mover a la siguiente línea
-            let bodyTextFinalLines = doc.splitTextToSize(bodyTextFinal, pageWidth - leftMargin - rightMargin); // Ajuste al ancho completo
-
-            // Dibujar las líneas del texto final, comenzando desde el margen izquierdo
-            doc.text(bodyTextFinalLines, leftMargin, ajusteVertical);
-
-            // Ajustar el espacio vertical según el número de líneas generadas
-            ajusteVertical += bodyTextFinalLines.length * 8;
-
-
-            // Detalles adicionales del proceso y texto final combinado
-            let bodyText2 = `Por lo tanto se Certifica el ingreso de los recursos a la cuenta del FRR para el trámite de duplicado de ${tipoDocumento} al ciudadano(a) ${nombreCompleto} con cupo numérico: ${nDocumento}, el cual se presenta por ${motivoAutorizacion}. En los casos de pérdida del comprobante de pago, el ciudadano garantiza la veracidad de la información y certifica la no utilización en trámites anteriores del soporte de pago. Favor recibir la documentación y verificar en su correo electrónico el código único de autorización de validez del documento. Este código será enviado a su correo inmediatamente se haya generado el documento.`;
-
-            // Unir ambos textos en uno solo y ajustarlo a la página
-            let bodyText2Lines = doc.splitTextToSize(bodyText2, pageWidth - leftMargin - rightMargin);
-
-            // Imprimir el texto en el PDF y agregar nueva página si es necesario
-            if (ajusteVertical + bodyText2Lines.length * 5 > pageHeight - 20) {
-                addNewPage();
-                ajusteVertical = 10; // Reiniciar ajuste vertical para la nueva página
-            }
-            doc.text(bodyText2Lines, leftMargin, ajusteVertical);
-            ajusteVertical += bodyText2Lines.length * 5;  // Ajustar el espacio vertical según el número de líneas generadas
-
-            // Firma y detalles finales alineados a la izquierda
-            doc.setFontSize(10);
-
-            // Agregar una nueva página si es necesario
-            if (ajusteVertical + 60 > pageHeight - 20) {
-                addNewPage();
-                ajusteVertical = 50; // Reiniciar ajuste vertical para la nueva página
-            }
-
-            // Agregar un espacio adicional antes de "Cordialmente"
-            ajusteVertical += 16;
-            doc.text('Cordialmente,', leftMargin, ajusteVertical); // Cambiado para alineación a la izquierda
-            ajusteVertical += 10;
-            doc.text(`Observaciones: ${observacion}`, leftMargin, ajusteVertical);
-            ajusteVertical += 10; // Espacio más grande después de "Cordialmente"
-            doc.text('CARLOS ANDRÉS CONTRERAS GONZÁLEZ', leftMargin, ajusteVertical); // Alineado a la izquierda
-
-            ajusteVertical += 10; // Espacio después del nombre
-            doc.text('Coordinador Control de Recaudos', leftMargin, ajusteVertical); // Alineado a la izquierda
-
-            // Firma alineada a la izquierda
-            ajusteVertical += 10; // Espacio más grande antes de la firma
-            doc.addImage('/static/img/image.png', 'PNG', leftMargin, ajusteVertical, 50, 15); // Firma alineada a la izquierda
-
-            ajusteVertical += 20; // Espacio después de la firma
-
-            // Detalles del usuario que lo elaboró alineados a la izquierda
-            doc.text(`Elaboro: ${Usuario}`, leftMargin, ajusteVertical); // Alineado a la izquierda
-            ajusteVertical += 10;
-            doc.text(`Aprobó: Carlos Andrés Contreras González`, leftMargin, ajusteVertical);
-            ajusteVertical += 10;
-            // Descargar el archivo PDF
-            doc.save("documento_oficio.pdf");
-
-            // Enviar el formulario para guardar en la base de datos
-            setTimeout(function () {
-                document.getElementById("form1").submit();  // Enviar el formulario después de generar el PDF
-            }, 500);  // Esperar 500ms antes de enviar el formulario
-        });
-
-    </script>
-
-
-    </script>
-    <script>
-        $(document).ready(function () {
-            // Inicialmente, desbloquear solo el campo de documento y bloquear el resto
-            toggleFormFields(true);
-            $("#nDocumento").prop('disabled', false);
-
-            // Evento al escribir en el campo de documento
-            $('#nDocumento').keyup(function () {
-                let documento = $(this).val();
-                if (documento.length > 5) {
-                    toggleFormFields(false);
-                    configurarFormulario();  // Configurar el formulario cuando esté desbloqueado
-                } else {
-                    // Bloquear todos los campos del formulario excepto el campo de documento
-                    toggleFormFields(true);
-                }
-            });
-
-            // Evento de cambio en el campo de tramite
-            $(document).ready(function () {
-                // Inicialmente, deshabilitar el campo de localidad
-                $("#lLocalidad").prop('disabled', true);
-                $("#Usuario").prop('disabled', true);
-
-                // Evento de cambio en el campo de trámite
-                $('#lTramite').change(function () {
-                    // Obtener el valor seleccionado
-                    let lugarTramite = $(this).val().trim();
-                    console.log("Valor seleccionado en lTramite:", lugarTramite);
-
-                    // Comparar el valor seleccionado con el valor esperado
-                    if (lugarTramite === 'Cundinamarca') {
-                        $("#lLocalidad").prop('disabled', false); // Habilitar el campo de localidad
-                    } else {
-                        $("#lLocalidad").prop('disabled', true); // Deshabilitar el campo de localidad
-                    }
-                });
-            });
-
-            // Función para habilitar o deshabilitar campos del formulario
-            function toggleFormFields(disabled) {
-                $("input").not("#nDocumento, #lLocalidad").prop('disabled', disabled);
-                $("textarea").prop('disabled', disabled);
-                $("select").not("#lLocalidad").prop('disabled', disabled); // Excluir el campo de localidad
-                $("checkbox").prop('disabled', disabled);
-                $("radio").prop('disabled', disabled);
-                $("label").prop('disabled', disabled);
-            }
-
-            // Configuración del formulario cuando está desbloqueado
-            function configurarFormulario() {
-                // Actualizar campo de texto dinámicamente según el valor ingresado
-                $("#txtDocumento").text($("#nDocumento").val());
-
-                $('#nombreCompleto').keyup(function () {
-                    $("#txtNombre").text($(this).val());
-                });
-
-                $("#lTramite").change(function () {
-                    $("#txtTramite").text($("#lTramite option:selected").text());
-                });
-
-                $("#motivoAutorizacion").change(function () {
-                    $("#txtMotivo").text($("#motivoAutorizacion option:selected").text());
-                });
-
-                $("#tipoDocumento").change(function () {
-                    var str = $("#tipoDocumento option:selected").text();
-                    var valor = $(this).val();
-                    var consignacion;
-                    switch (valor) {
-                        case '2': // CC
-                            consignacion = 49350;
-                            break;
-                        case '3': // TI
-                            consignacion = 48400;
-                            break;
-                        case '1': // RC
-                            consignacion = 8000;
-                            break;
-                        case '4':
-                            consignacion = 4500;
-                            break;
-                        default:
-                            consignacion = 0;
-                            break;
-                    }
-                    $('#txtTipoDocumento').text(str);
-                    $('#valorConsignacion').val(consignacion);
-                });
-
-                $("#banco").change(function () {
-                    var str = $("#banco option:selected").text();
-                    var valor = $(this).val();
-                    var particula = (valor == 1 || valor == 2) ? "del " : "de ";
-                    $('#particulaBanco').text(particula);
-                    $('#txtBanco').text(str);
-                });
-
-                $('#aPlano').keyup(function () {
-                    $("#txtPlano").text($(this).val());
-                });
-
-                // Checkboxes
-                $("#checkboxes").change(function () {
-                    var favorite = [];
-                    $.each($("input[name='vDoc']:checked"), function () {
-                        favorite.push($(this).val());
-                    });
-                    $("#txtValidacion").text(favorite.join(", "));
-                });
-
-                $("#madeBy").change(function () {
-                    var valor = $(this).val();
-                    if (!valor) {
-                        $('#madeBy').css('border-color', 'red');
-                        $('#btnExportar').prop('disabled', true);
-                        $('#btnGuardar').prop('disabled', true);
-                    } else {
-                        $('#madeBy').css('border-color', '');
-                        $('#btnExportar').prop('disabled', false);
-                        if (!$('#nOficio').val()) {
-                            $('#btnGuardar').prop('disabled', false);
-                        }
-                    }
-                });
-            }
-
-            function ajustarTamanoFuente(element) {
-                let fontSize = 16; // Tamaño inicial de la fuente en píxeles
-                element.style.fontSize = `${fontSize}px`;
-
-                // Ajustar el tamaño de la fuente si el texto supera el contenedor
-                while (element.scrollHeight > element.offsetHeight && fontSize > 8) { // Limitar el tamaño mínimo de la fuente a 8px
-                    fontSize--;
-                    element.style.fontSize = `${fontSize}px`;
-                }
-            }
-
-            function actualizarTextoPlano() {
-                const txtPlano = document.getElementById("txtPlano");
-                const texto = txtPlano.textContent || txtPlano.innerText;
-
-                // Actualizar el contenido del elemento con el texto ingresado
-                txtPlano.textContent = texto;
-
-                // Ajustar el tamaño de la fuente para que el texto se ajuste al contenedor
-                ajustarTamanoFuente(txtPlano);
-            }
-
-            // Configurar el evento para actualizar el texto y ajustar el tamaño de la fuente
-            document.getElementById("aPlano").addEventListener("keyup", function () {
-                const txtPlano = document.getElementById("txtPlano");
-                txtPlano.textContent = this.value;
-                actualizarTextoPlano();
-            });
-
-            function actualizarHora() {
-                const ahora = new Date();
-                const opciones = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
-                const fechaHora = ahora.toLocaleString('es-ES', opciones);
-                document.getElementById('horaActual').textContent = `Bogotá D.C. ${fechaHora}`;
-            }
-
-            // Actualizar la hora al cargar la página
-            actualizarHora();
-
-            // Actualizar la hora cada segundo
-            setInterval(actualizarHora, 1000);
-        });
-    </script>
-
-
 </body>
-
+{% include 'footer.html' %}
 </html>
